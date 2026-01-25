@@ -1,0 +1,1 @@
+pyinstaller --name MouseMacroManager --onefile --windowed --icon=app_icon.png --add-data "app_icon.png;." app.py
