@@ -1,0 +1,59 @@
+How to use Mouse Macro Manager
+
+Getting started
+• Launch the app. You’ll see the main window and a tray icon (system notification area).
+• Press the mouse button you want to configure (including side buttons). If it’s not already listed, it will appear in the table automatically.
+• Click the new row in the table, then choose “Edit selected” to assign what that button should do.
+• Use “Apply” to activate setting changes immediately, and “Save” to keep them for next launch.
+
+Enable / Disable macros
+• Use the “Enabled” checkbox at the top to turn all macros on or off instantly.
+  - When disabled, any “hold” actions stop immediately.
+
+Assigning a button (Edit selected)
+• In the Edit window:
+  1) Mode
+     - press: performs the action once when the button is pressed
+     - hold: repeats the action continuously while you keep the button held down
+  2) Action
+     - Pick what you want the button to do (scroll, keys, text, run, etc.)
+  3) Param
+     - Provide extra input only when the selected action needs it (keys/text/run).
+
+Actions and how to use them
+• Horizontal scroll (Excel Web-friendly)
+  - Choose: hscroll_left or hscroll_right
+  - Recommended: set Mode = hold for smooth continuous scrolling
+  - Works best when Excel Web mode is set to “shift_wheel” (default)
+
+• Send keys (keyboard shortcut)
+  - Choose: keys
+  - In Param, enter a shortcut like: ctrl+shift+t, alt+f4, f5
+  - Recommended: press mode for one-shot shortcuts, hold mode if you want repeated behavior
+
+• Type text
+  - Choose: text
+  - In Param, type exactly what you want inserted (example: hello world)
+  - Use press mode for a single paste/type action
+
+• Run a program / command
+  - Choose: run
+  - In Param, enter a command like: notepad.exe
+  - You can also run any shell command Windows can execute
+
+Excel Web scrolling setup (recommended workflow)
+• Set “Excel Web mode” to:
+  - shift_wheel (recommended): uses Shift + Mouse Wheel to scroll horizontally in Excel Online
+  - hwheel: uses native horizontal wheel events (use if shift_wheel doesn’t work well for you)
+• Click inside the Excel sheet grid before using scroll macros (so Excel has focus).
+• Tune scrolling speed:
+  - If it’s too slow: increase “Steps/tick” to 2–3
+  - If it’s too fast: increase “Repeat ms” (higher = slower repeat rate)
+
+Tray behavior
+• Click “Hide to tray” to close the window without stopping macros (the tray icon stays active).
+• From the tray icon menu you can:
+  - Show / Hide the window
+  - Enable/Disable macros
+  - Quit the app
+• Closing the window using the X button fully exits the app (macros stop).

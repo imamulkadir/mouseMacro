@@ -1,0 +1,33 @@
+{
+  "enabled": true,
+  "repeat_interval_ms": 16,
+  "scroll_steps_per_tick": 1,
+  "excel_web_mode": "shift_wheel",
+  "bindings": {
+    "xbutton1": {
+      "mode": "hold",
+      "action": "hscroll_left",
+      "param": ""
+    },
+    "xbutton2": {
+      "mode": "hold",
+      "action": "hscroll_right",
+      "param": ""
+    },
+    "left": {
+      "mode": "press",
+      "action": "none",
+      "param": ""
+    },
+    "middle": {
+      "mode": "press",
+      "action": "none",
+      "param": ""
+    },
+    "right": {
+      "mode": "press",
+      "action": "none",
+      "param": ""
+    }
+  }
+}
