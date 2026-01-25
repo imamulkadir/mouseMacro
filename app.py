@@ -714,6 +714,8 @@ class App:
 
         ttk.Button(btns, text="Edit selected", command=self.on_edit_selected).pack(side="left")
         ttk.Button(btns, text="Reset selected", command=self.on_reset_selected).pack(side="left", padx=8)
+        ttk.Button(btns, text="Load default settings", command=self.on_load_defaults).pack(side="left", padx=8)
+        ttk.Button(btns, text="Save current settings", command=self.on_save_current).pack(side="left", padx=8)
         ttk.Button(btns, text="Hide to tray", command=self.hide_window).pack(side="right")
 
         self._refresh_table()
@@ -813,6 +815,62 @@ class App:
         self._refresh_table()
         self.root.update_idletasks()
         center_window(self.root, width=760, height=self._compute_compact_height())
+
+    def on_load_defaults(self):
+        ok = messagebox.askyesno(
+            "Load default settings",
+            "This will reset all settings to defaults.\n\n"
+            "• xbutton1 = hscroll_left (hold)\n"
+            "• xbutton2 = hscroll_right (hold)\n"
+            "• Any other detected button mappings will be removed.\n\n"
+            "Continue?"
+        )
+        if not ok:
+            return
+
+        # Reset everything to defaults WITHOUT changing core behavior:
+        # only xbutton1/xbutton2 exist by default; others appear by detection.
+        self.cfg = DEFAULT_CONFIG.copy()
+        self.cfg["bindings"] = {
+            "xbutton1": DEFAULT_CONFIG["bindings"]["xbutton1"].copy(),
+            "xbutton2": DEFAULT_CONFIG["bindings"]["xbutton2"].copy(),
+        }
+
+        # Update UI vars
+        self.enabled_var.set(bool(self.cfg.get("enabled", True)))
+        self.mode_var.set(self.cfg.get("excel_web_mode", "shift_wheel"))
+        self.repeat_var.set(str(self.cfg.get("repeat_interval_ms", 16)))
+        self.steps_var.set(str(self.cfg.get("scroll_steps_per_tick", 1)))
+
+        # Apply to engine + UI
+        self.engine.set_enabled(self.cfg["enabled"])
+        self.engine.update_config(self.cfg)
+        self._refresh_table()
+        self._update_tray_title()
+
+        # Persist immediately
+        save_config(self.cfg_path, self.cfg)
+
+        # Resize/recenter
+        self.root.update_idletasks()
+        center_window(self.root, width=760, height=self._compute_compact_height())
+
+
+    def on_save_current(self):
+        ok = messagebox.askyesno(
+            "Save current settings",
+            "Save current settings and button mappings to disk?"
+        )
+        if not ok:
+            return
+
+        # Ensure the fields are validated + applied to cfg first
+        self.on_change_settings()
+
+        save_config(self.cfg_path, self.cfg)
+        messagebox.showinfo("Saved", f"Saved to:\n{self.cfg_path}")
+
+
 
     def on_help(self):
         dlg = tk.Toplevel(self.root)
