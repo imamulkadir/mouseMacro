@@ -13,21 +13,6 @@
       "mode": "hold",
       "action": "hscroll_right",
       "param": ""
-    },
-    "left": {
-      "mode": "press",
-      "action": "none",
-      "param": ""
-    },
-    "middle": {
-      "mode": "press",
-      "action": "none",
-      "param": ""
-    },
-    "right": {
-      "mode": "press",
-      "action": "none",
-      "param": ""
     }
   }
 }

@@ -10,13 +10,22 @@ from ctypes import wintypes
 import tempfile
 from io import BytesIO
 
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 
 from pynput import mouse
 import pystray
 from PIL import Image, ImageDraw
+
+def resource_path(relative_name):
+    """
+    Works for both:
+    - normal .py run
+    - PyInstaller --onefile (uses sys._MEIPASS)
+    """
+    base = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base, relative_name)
+
 
 
 # ----------------------------
@@ -32,6 +41,8 @@ MOUSEEVENTF_HWHEEL = 0x01000
 WHEEL_DELTA = 120
 
 KEYEVENTF_KEYUP = 0x0002
+KEYEVENTF_UNICODE = 0x0004
+
 
 VK_SHIFT = 0x10
 VK_CONTROL = 0x11
@@ -144,6 +155,48 @@ def press_combo(combo_str):
         send_key(vk, is_up=False)
     for vk in reversed(vks):
         send_key(vk, is_up=True)
+
+
+def send_text_unicode(text):
+    # Types into the currently focused window (browser/Excel/etc.)
+    # No PowerShell, no SendKeys popups.
+    if not text:
+        return
+
+    for ch in text:
+        # Normalize newline
+        if ch == "\n":
+            ch = "\r"
+
+        code = ord(ch)
+
+        down = INPUT(
+            type=INPUT_KEYBOARD,
+            union=INPUT_UNION(
+                ki=KEYBDINPUT(
+                    wVk=0,
+                    wScan=code,
+                    dwFlags=KEYEVENTF_UNICODE,
+                    time=0,
+                    dwExtraInfo=0,
+                )
+            ),
+        )
+        up = INPUT(
+            type=INPUT_KEYBOARD,
+            union=INPUT_UNION(
+                ki=KEYBDINPUT(
+                    wVk=0,
+                    wScan=code,
+                    dwFlags=KEYEVENTF_UNICODE | KEYEVENTF_KEYUP,
+                    time=0,
+                    dwExtraInfo=0,
+                )
+            ),
+        )
+
+        user32.SendInput(1, ctypes.byref(down), ctypes.sizeof(INPUT))
+        user32.SendInput(1, ctypes.byref(up), ctypes.sizeof(INPUT))
 
 
 # ----------------------------
@@ -394,12 +447,7 @@ class MacroEngine:
                 press_combo(param.strip())
         elif action == "text":
             if param:
-                safe = param.replace("'", "''")
-                ps = (
-                    "Add-Type -AssemblyName System.Windows.Forms; "
-                    f"[System.Windows.Forms.SendKeys]::SendWait('{safe}')"
-                )
-                subprocess.Popen(["powershell", "-NoProfile", "-Command", ps])
+                send_text_unicode(param)
         elif action == "run":
             if param.strip():
                 subprocess.Popen(param, shell=True)
@@ -498,11 +546,9 @@ def center_window(win, width=None, height=None, relative_to=None):
 
     win.geometry(f"{width}x{height}+{x}+{y}")
 
-
 # Icon functions
 def _icon_png_path():
-    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "app_icon.png")
-
+    return resource_path("app_icon.png")
 
 def load_icon_pil(size=64):
     """
