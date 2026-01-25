@@ -26,7 +26,7 @@ You can simply run the provided `.exe` file.
 *   **No Administrator privileges required** (unless you need macros to work inside Admin-level applications).
 
 ### Option 2: Run from Source (Python Script)
-If you prefer to run the raw Python script (`mousemacro_UPDATED.py`), follow these steps:
+If you prefer to run the raw Python script (`app.py`), follow these steps:
 
 1.  **Install Python 3.x**: Ensure Python is installed on your system.
 2.  **Install Dependencies**:
@@ -37,21 +37,26 @@ If you prefer to run the raw Python script (`mousemacro_UPDATED.py`), follow the
     (Or manually: `pip install pynput pystray Pillow`)
 3.  **Run the Script**:
     ```bash
-    python mousemacro_UPDATED.py
+    python app.py
     ```
 
 ## User Manual
 
 ### Getting Started
 1.  **Launch the App**: You’ll see the main window and a tray icon.
-2.  **Detect a Button**: Press the mouse button you want to configure (including side buttons). If it’s not in the list, it will appear automatically.
-3.  **Edit Binding**: Click the row in the list, then click **“Edit selected”**.
+2.  **Default Settings**:
+    *   **XButton1**: `hscroll_left` - Horizontal scroll left
+    *   **XButton2**: `hscroll_right` - Horizontal scroll right
+    *   **Excel Web mode**: `shift_wheel` is recommended (simulates Shift+Scroll). Use `hwheel` if that doesn't work.
+    *   **Speed**: Increase **Steps/tick** to make it faster (coarser), or **Repeat ms** to make it slower (less frequent updates).
+3.  **Detect a Button**: Press the mouse button you want to configure (including side buttons). If it’s not in the list, it will appear automatically.
+4.  **Edit Binding**: Click the row in the list, then click **“Edit selected”**.
     *   **Mode**:
         *   `press`: Action happens once per click.
         *   `hold`: Action repeats while held down.
     *   **Action**: Choose what the button does.
     *   **Param**: Enter keys, text, or command (if needed).
-4.  **Save**: Click **“Apply”** to test immediately, and **“Save”** to keep settings for next time.
+5.  **Save**: Click **“Apply”** to test immediately, and **“Save”** to keep settings for next time.
 
 ### Actions Guide
 *   **Horizontal Scroll (Excel Web)** (`hscroll_left` / `hscroll_right`)
@@ -87,3 +92,6 @@ If you prefer to run the raw Python script (`mousemacro_UPDATED.py`), follow the
 ## Troubleshooting
 *   **Scrolling too fast/slow?** Adjust "Repeat ms" (timing) and "Steps/tick" (distance) in the main window.
 *   **Macros not working?** Check the "Enabled" checkbox at the top or in the tray menu.
+
+## 👤 Author
+[Imamul Kadir](https://www.linkedin.com/in/imamulkadir/)
