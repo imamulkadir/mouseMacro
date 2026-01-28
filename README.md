@@ -2,6 +2,8 @@
 
 A powerful, customizable mouse macro utility for Windows, written in Python. This tool allows you to remap mouse buttons to complex actions, including key combinations, text expansion, application launching, and specialized scrolling for Excel Web.
 
+![Mouse Macro](mm.png)
+
 ## Features
 
 *   **GUI Configuration**: Easy-to-use graphical interface to manage button bindings.
